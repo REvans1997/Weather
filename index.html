@@ -43,31 +43,34 @@
             position: absolute;
             color: white;
             font-weight: bold;
-            opacity: 0.8;
+            opacity: 0.9;
+            font-size: 1rem;
+            line-height: 1;
+            pointer-events: none;
         }
 
             .compass-label.north {
-                top: 5px;
+                top: 0px;
                 left: 50%;
-                transform: translateX(-50%);
+                transform: translateX(-50%) translateY(-50%);
             }
 
             .compass-label.east {
-                right: 5px;
-                top: 50%;
-                transform: translateY(-50%);
+                right: 0px;
+                left: 50%;
+                transform: translateY(50%) translateY(-50%);
             }
 
             .compass-label.south {
-                bottom: 5px;
-                left: 50%;
-                transform: translateX(-50%);
+                bottom: 0px;
+                top: 50%;
+                transform: translateX(-50%) translateY(50%);
             }
 
             .compass-label.west {
-                left: 5px;
+                left: 0px;
                 top: 50%;
-                transform: translateY(-50%);
+                transform: translateY(-50%) translateY(-50%);
             }
 
         .compass-needle {
