@@ -26,6 +26,75 @@
             -ms-overflow-style: none;
             scrollbar-width: none
         }
+
+        .wind-compass {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1)
+        }
+
+        .compass-label {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+            .compass-label.north {
+                top: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .compass-label.east {
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .compass-label.south {
+                bottom: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .compass-label.west {
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+        .compass-needle {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 4px;
+            height: 50%;
+            background: red;
+            transform-origin: bottom center;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+            z-index: 5;
+            border-radius: 2px;
+        }
+
+        .compass-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="min-h-screen text-white font-sans selection:bg-white/20">
@@ -189,7 +258,7 @@
       try {
         const res = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-          `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,pressure_msl,visibility` +
+          `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,visibility` +
           `&daily=temperature_2m_max,temperature_2m_min,weather_code` +
           `&timezone=auto&temperature_unit=${tempUnit}`
         );
@@ -237,6 +306,12 @@
         }, () => alert("Could not get location"));
       }
     });
+
+        // Wind direction
+        const direction = date.current.wind_direction_10m || 0;
+        const needle = document.querySelector('.compass-needle');
+        needle.style.transform = `rotate(${direction}deg)`;
+
     </script>
 </body>
 </html>
