@@ -41,34 +41,34 @@
 
         .compass-label {
             position: absolute;
-            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
             font-weight: bold;
-            opacity: 0.9;
-            font-size: 1rem;
-            line-height: 1;
-            pointer-events: none;
         }
 
             .compass-label.north {
                 top: 0;
-                left: 48%;
+                left: 50%;
                 transform: translateX(-50%);
             }
 
             .compass-label.east {
-                top: 48%;
+                top: 50%;
                 right: 0;
                 transform: translateY(-50%);
             }
 
             .compass-label.south {
                 bottom: 0;
-                left: 48%;
+                left: 50%;
                 transform: translateX(-50%);
             }
 
             .compass-label.west {
-                top: 48%;
+                top: 50%;
                 left: 0;
                 transform: translateY(-50%);
             }
