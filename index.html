@@ -76,7 +76,7 @@
             left: 50%;
             width: 4px;
             height: 50%;
-            background: red;
+            background: white;
             transform-origin: bottom center;
             transform: rotate(0deg);
             transition: transform 0.5s ease;
@@ -277,6 +277,12 @@
         pressure.textContent = data.current.pressure_msl + " hPa";
         visibility.textContent = data.current.visibility + " m";
 
+
+        // Wind direction
+        const direction = date.current.wind_direction_10m || 0;
+        const needle = document.querySelector('.compass-needle');
+        needle.style.transform = `rotate(${direction}deg)`;
+
         // Radar
         updateRadar(lat, lon);
       } catch(err){
@@ -306,12 +312,6 @@
         }, () => alert("Could not get location"));
       }
     });
-
-        // Wind direction
-        const direction = date.current.wind_direction_10m || 0;
-        const needle = document.querySelector('.compass-needle');
-        needle.style.transform = `rotate(${direction}deg)`;
-
     </script>
 </body>
 </html>
