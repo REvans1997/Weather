@@ -402,6 +402,43 @@
                 pressure.textContent = data.current.pressure_msl + " hPa";
                 visibility.textContent = data.current.visibility + " m";
 
+                // hourly
+                hourRow.innerHTML = '';
+                const nowIdx = data.hourly.time.findIndex(t => new Date(t) > now);
+                for (let i = Math.max(0, nowIdx); i < nowIdx + 12 && i < data.hourly.time.length; i++) {
+                    const t = fmtTime(data.hourly.time[i]);
+                    const ic = (WMO[data.hourly.weather_code[i]] || ['', '☀️'])[1];
+                    const v = Math.round(data.hourly.temperature_2m[i]);
+                    const el = document.createElement('div');
+                    el.className = 'tile shrink-0 text-center snap-center';
+                    el.innerHTML =
+                        `<div class="text-sm opacity-90">${t}</div>
+           <div class="text-2xl">${ic}</div>
+           <div class="mt-1 text-lg">${v}°</div>`;
+                    hourRow.appendChild(el);
+                }
+
+                // weekly
+                dailyWrap.innerHTML = '';
+                for (let i = 0; i < data.daily.time.length; i++) {
+                    const day = i === 0 ? 'Today' : fmtDay(data.daily.time[i]);
+                    const ic = (WMO[data.daily.weather_code[i]] || ['', '☀️'])[1];
+                    const hi = Math.round(data.daily.temperature_2m_max[i]);
+                    const lo = Math.round(data.daily.temperature_2m_min[i]);
+                    const sr = data.daily.sunrise?.[i] ? new Date(data.daily.sunrise[i]).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '--';
+                    const ss = data.daily.sunset?.[i] ? new Date(data.daily.sunset[i]).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '--';
+
+                    const row = document.createElement('div');
+                    row.className = 'row';
+                    row.innerHTML =
+                        `<div class="date">${day}</div>
+           <div class="wx">${ic}</div>
+           <div class="temp hi"><span class="label">H</span><span class="value">${hi}°</span></div>
+           <div class="temp lo"><span class="label">L</span><span class="value">${lo}°</span></div>
+           <div class="sun"><span>🌅</span><span class="k">Sunrise</span><span class="v">${sr}</span></div>
+           <div class="sun"><span>🌇</span><span class="k">Sunset</span><span class="v">${ss}</span></div>`;
+                    dailyWrap.appendChild(row);
+                }
 
                 // Wind direction
                 const direction = data.current.wind_direction_10m || 0;
